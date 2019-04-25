@@ -1,0 +1,17 @@
+types of loss function
+	cross entropy 
+	kullback leibler divergence (KL)
+	connectionist temporal classification (CTC) -> only for sequence of characters
+
+Optimizers
+	Stochastic Gradient Descent
+		Loss computed over a mini-batch of examples
+	Smarter optimizers with dynamic learning rate (see Geoffrey Hinton lecture)
+		Adam
+		RMSProb (particularly successful using LSTM)
+
+Weight initialization -> Xavier-Glorot Uniform works pretty good
+
+Dropout -> randomly remove network links (avoiding overfitting)
+
+Practical methodology chapter in Deep Learning book is very handy
