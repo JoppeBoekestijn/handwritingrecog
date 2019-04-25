@@ -1,1 +1,1 @@
-# handwritingrecog
+# Handwriting Recognition
