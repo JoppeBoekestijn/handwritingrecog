@@ -3,7 +3,7 @@ import cv2
 from matplotlib import pyplot as plt
 
 #Read image, and perform binarization using Otsu algorithm
-img = cv2.imread('klein.jpg')  #Afbeelding waar je alles op uitvoert
+img = cv2.imread('1_klein.pgm')  #Afbeelding waar je alles op uitvoert
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
@@ -41,7 +41,44 @@ markers = markers+1
 markers[unknown==255] = 0
 cv2.imwrite('markers.png',markers)
 
-#Perform watershed and save the result. 
+
+#Perform watershed and save the result.
 markers = cv2.watershed(img,markers)
 img[markers == -1] = [0,255,0]
 cv2.imwrite('img.png',img)
+
+
+for marker in range(1,ret):
+    mask = np.array(markers, dtype=np.uint8)
+    mask[markers == marker] = 255
+    cv2.imshow('component',mask)
+    cv2.imwrite('mask.png',mask)
+    cv2.waitKey(0)
+
+def sliding_window(image, stepSize, windowSize):
+	# slide a window across the image
+    for y in range(0, image.shape[0],stepSize):
+        for x in range(image.shape[1], 0, -stepSize):
+			# yield the current window
+            yield (x, y, image[y:y + windowSize[1], x:x + windowSize[0]])
+
+
+(winW,winH) = (32,32)
+
+# for (x, y, window) in sliding_window(img, stepSize=32, windowSize=((winW, winH))):
+#     # if the window does not meet our desired window size, ignore it
+#     if window.shape[0] != winW or window.shape[1] != winH:
+#         continue
+#
+#     for x_window in range(window.shape[0],0,-1):
+#         for y_window in range(0,window.shape[1],1):
+#             a = 1
+#         #    print(img[x_window,y_window])
+#         #    if img[x_window,y_window] == [0, 255, 0]:
+#         #        print("WOW")
+#
+#     # since we do not have a classifier, we'll just draw the window
+#     clone = img.copy()
+#     cv2.rectangle(clone, (x, y), (x + winW, y + winH), (0, 255, 0), 2)
+#     cv2.imshow("Window", clone)
+#     cv2.waitKey(0)
