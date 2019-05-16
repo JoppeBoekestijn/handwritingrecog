@@ -83,7 +83,7 @@ largest_component = largest_component.astype('uint8')
 cv2.imwrite('output_files/is_dit_het_nou.png', largest_component)
 
 largest_component_copy = largest_component
-_, contours, hierarchy = cv2.findContours(largest_component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+contours, hierarchy = cv2.findContours(largest_component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 bounding_boxes = [cv2.boundingRect(contour) for contour in contours]
 
 print(bounding_boxes)
@@ -91,6 +91,7 @@ x = bounding_boxes[0][0]
 y = bounding_boxes[0][1]
 width = bounding_boxes[0][2]
 height = bounding_boxes[0][3]
+
 #Crop the image to get only the scroll
 crop_img = largest_component_copy[y:y+height, x:x+width]
 cv2.imwrite('output_files/crop.png', crop_img)
@@ -132,9 +133,9 @@ cv2.imwrite('output_files/markers.png',markers)
 
 
 #Perform watershed and save the result.
-markers = cv2.watershed(img,markers)
-img[markers == -1] = [0,255,0]
-cv2.imwrite('img.png',img)
+# markers = cv2.watershed(img,markers)
+# img[markers == -1] = [0,255,0]
+# cv2.imwrite('img.png',img)
 
 
 for marker in range(1,ret):
@@ -144,30 +145,35 @@ for marker in range(1,ret):
     cv2.imwrite('mask.png',mask)
     cv2.waitKey(0)
 
-def sliding_window(image, stepSize, windowSize):
-	# slide a window across the image
-    for y in range(0, image.shape[0],stepSize):
-        for x in range(image.shape[1], 0, -stepSize):
-			# yield the current window
-            yield (x, y, image[y:y + windowSize[1], x:x + windowSize[0]])
-
-
-(winW,winH) = (32,32)
-
-# for (x, y, window) in sliding_window(img, stepSize=32, windowSize=((winW, winH))):
-#     # if the window does not meet our desired window size, ignore it
-#     if window.shape[0] != winW or window.shape[1] != winH:
-#         continue
-#
-#     for x_window in range(window.shape[0],0,-1):
-#         for y_window in range(0,window.shape[1],1):
-#             a = 1
-#         #    print(img[x_window,y_window])
-#         #    if img[x_window,y_window] == [0, 255, 0]:
-#         #        print("WOW")
-#
-#     # since we do not have a classifier, we'll just draw the window
-#     clone = img.copy()
-#     cv2.rectangle(clone, (x, y), (x + winW, y + winH), (0, 255, 0), 2)
-#     cv2.imshow("Window", clone)
-#     cv2.waitKey(0)
+# Sliding window over all bounding boxes
+for box in bounding_boxes:
+    xStart = box[2]
+    xEnd = box[0]
+    y = box[1]
+    winH = box[3] - y
+    winWidth = 5
+    while(xStart > xEnd) :
+        hit = False
+        winW = winWidth
+        a = 0
+        # While the image is not classified and the box has not reached the edge,
+        # increase window size
+        while(not hit and xStart-winW > xEnd and a < 10) :
+            newX = xStart - winW
+            # Draw the window
+            clone = img.copy()
+            cv2.rectangle(clone, (xStart, y), (newX, y + winH), (255, 0, 0), 2)
+            cv2.rectangle(clone, (xStart,y),(xEnd,y + winH), (0,255,0), 2)
+            cv2.imshow("Window", clone)
+            cv2.waitKey(0)
+            # Check if the CNN returns a high probability for a letter
+            # for prob in probabilities :
+            #     if prob >= 0.75 :
+            #         hit = true
+            #         xStart = newX
+            # # Increase size of window if nothing has been found
+            winW += 5
+            a += 1
+            if a ==10 :
+                xStart = newX
+        #x = 0
