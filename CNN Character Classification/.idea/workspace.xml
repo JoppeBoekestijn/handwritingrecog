@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bb510c50-7eb8-4a9e-aa41-a252ac193ba3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.ipynb_checkpoints/monkbrill-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../monkbrill.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../recognition/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../recognition/Untitled.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/lineseg.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/lineseg.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/bg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/biggest_component.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/biggest_component.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/connected_components.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/connected_components.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/crop.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/crop.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/dist_transform.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/dist_transform.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/fg.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/fg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/is_dit_het_nou.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/is_dit_het_nou.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/markers.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/markers.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/opening.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/opening.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/otsu.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/otsu.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice3.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice4.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice5.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice6.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice7.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/slice7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/unkown.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/unkown.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/vierkant.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/vierkant.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/watershed_output.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/preprocessing/output_files/watershed_output.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notebook/trace.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Notebook/trace.txt" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/CNN_Character_Classification$dataaugpretrained.coverage" NAME="dataaugpretrained Coverage Results" MODIFIED="1557583074183" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dataaugcnn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="933">
+              <caret line="43" column="12" selection-start-line="43" selection-start-column="12" selection-end-line="43" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/standardcnn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-488">
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/font2image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Downloads/cnn_monkbrill.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cnn_monkbrill.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-299">
+              <caret line="20" selection-start-line="11" selection-end-line="20" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dataaugpretrained.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="840" />
+    <option name="y" value="23" />
+    <option name="width" value="840" />
+    <option name="height" value="959" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CNN Character Classification" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CNN Character Classification" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CNN Character Classification" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CNN Character Classification" type="462c0819:PsiDirectoryNode" />
+              <item name="habbakuk" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="dataaugpretrained" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="CNN Character Classification" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dataaugpretrained.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.dataaugpretrained" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bb510c50-7eb8-4a9e-aa41-a252ac193ba3" name="Default Changelist" comment="" />
+      <created>1557580012364</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1557580012364</updated>
+      <workItem from="1557580013936" duration="2389000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2389000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="840" y="23" width="840" height="959" extended-state="0" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30325815" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32945284" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/dataaugcnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="933">
+          <caret line="43" column="12" selection-start-line="43" selection-start-column="12" selection-end-line="43" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataaugpretrained.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/standardcnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-488">
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/font2image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/cnn_monkbrill.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cnn_monkbrill.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-299">
+          <caret line="20" selection-start-line="11" selection-end-line="20" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
