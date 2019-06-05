@@ -12,25 +12,30 @@ def undesired_objects (image):
     image = image.astype('uint8')
     nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity=8)
     sizes = stats[:, -1]
+<<<<<<< HEAD
+=======
     #Show components of the image
     imshow_components(output)
 
+>>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
     max_label = 1
     max_size = sizes[1]
+
     for i in range(2, nb_components):
         if sizes[i] > max_size:
-            max_label = i
-            max_size = sizes[i]
-            
+             max_label = i
+             max_size = sizes[i]
+
     img2 = np.zeros(output.shape)
     img2[output == max_label] = 255
     cv2.imwrite("output_files/biggest_component.png", img2)
     return img2
 
+
 def inverted(imagem):
     imagem = (255-imagem)
     return imagem
-    
+
 def imshow_components(labels):
     # Map component labels to hue val
     label_hue = np.uint8(179*labels/np.max(labels))
@@ -66,13 +71,22 @@ def img_fill(im_th):  # n = binary image threshold
     return fill_image 
 
 #Read image, and perform binarization using Otsu algorithm
-img = cv2.imread('input_files/test4.jpg')  #Afbeelding waar je alles op uitvoert
+img = cv2.imread('input_files/test6.jpg')  #Afbeelding waar je alles op uitvoert
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
 
 #Perform OTSU binarization
 ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
+<<<<<<< HEAD
+#Fooling around with sauvola binarization. Work in progress though.
+# window_size = 25
+# thresh_sauvola = threshold_sauvola(img, window_size=window_size)
+# binary_sauvola = img > thresh_sauvola
+# binary_sauvola  = binary_sauvola.astype('uint8')
+# binary_sauvola[binary_sauvola == 1 ] = 255
+# cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
+=======
 
 ###################################################################
 #Fooling around with sauvola binarization. Work in progress though. 
@@ -83,6 +97,7 @@ ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 #binary_sauvola[binary_sauvola == 1 ] = 255
 #cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
 ###################################################################
+>>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
 
 #Show  and save image
 cv2.imwrite('output_files/otsu.png',thresh)
@@ -105,12 +120,19 @@ cv2.imwrite('output_files/inverted_otsu.png', inverted)
 largest_component = undesired_objects(inverted)
 #Convert to right type
 largest_component = largest_component.astype('uint8')
-#Save file for debugging purposes. 
+#Save file for debugging purposes.
 cv2.imwrite('output_files/is_dit_het_nou.png', largest_component)
 
+<<<<<<< HEAD
+inv_largest = inverted(largest_component)
+no_holes = inverted(undesired_objects(inv_largest))
+cv2.imwrite('output_files/is_dit_omgekeerd.png', inv_largest)
+
+=======
 #Create bounding box around largest component with contours
+>>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
 largest_component_copy = largest_component
-_, contours, hierarchy = cv2.findContours(largest_component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+contours, hierarchy = cv2.findContours(largest_component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 bounding_boxes = [cv2.boundingRect(contour) for contour in contours]
 
 #Get the appropriate coordinates
@@ -122,8 +144,12 @@ height = bounding_boxes[0][3]
 #Crop from the originalimage to only get the scroll wihtou losing information at the edges
 crop_img = inverted[y:y+height, x:x+width]
 cv2.imwrite('output_files/crop.png', crop_img)
+<<<<<<< HEAD
+#Draw rectangle around the largest component to see what is being cropped.
+=======
 
 #Draw rectangle around the largest component to see what is being cropped. 
+>>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
 cv2.rectangle(largest_component_copy,(x,y),(x+width,y+height),(255,0,0),2)
 cv2.imwrite('output_files/vierkant.png', largest_component_copy)
 crop_img2 = img[y:y+height, x:x+width]
@@ -159,8 +185,39 @@ markers = markers+1
 markers[unknown==255] = 0
 cv2.imwrite('output_files/markers.png',markers)
 
-#Perform watershed and save the result. 
+#Perform watershed and save the result.
 markers = cv2.watershed(crop_img2,markers)
 crop_img2[markers == -1] = [0,255,0]
 cv2.imwrite('output_files/watershed_output.png',crop_img2)
 
+# for box in bounding_boxes:
+#     xStart = box[2]
+#     xEnd = box[0]
+#     y = box[1]
+#     winH = box[3] - y
+#     winWidth = 5
+#     while(xStart-winWidth >= xEnd) :
+#         hit = False
+#         winW = winWidth
+#         a = 0
+#         # While the image is not classified and the box has not reached the edge,
+#         # increase window size
+#         while(not hit and xStart-winW >= xEnd) :
+#             newX = xStart - winW
+#             # Draw the window
+#             clone = img.copy()
+#             cv2.rectangle(clone, (xStart, y), (newX, y + winH), (255, 0, 0), 2)
+#             cv2.rectangle(clone, (xStart,y),(xEnd,y + winH), (0,255,0), 2)
+#             cv2.imshow("Window", clone)
+#             cv2.waitKey(0)
+#             # Check if the CNN returns a high probability for a letter
+#             # for prob in probabilities :
+#             #     if prob >= 0.75 :
+#             #         hit = True
+#             #         xStart = newX
+#             # # Increase size of window if nothing has been found
+#             winW += 5
+#             # this is done to ensure that the loop ends for now, because not
+#             # connected to cnn yet.
+#             hit = True
+#             xStart = newX
