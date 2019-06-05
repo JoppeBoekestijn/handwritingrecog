@@ -1,17 +1,19 @@
 import keras
 import glob
 import numpy as np
+import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.preprocessing.image import ImageDataGenerator
 from tflearn.data_utils import image_preloader
+from keras.callbacks import ModelCheckpoint
 from PIL import Image
+from models import *
 
 # Global parameters
-batch_size = 64
-num_classes = 10
-epochs = 12
+batch_size = 32
+num_epochs = 50
 num_classes = 27
 img_width = 32
 img_height = 48
@@ -35,9 +37,8 @@ def load_data(train=True):
                            normalize=True,
                            grayscale=True)
 
-    x = np.asarray(x[:])
-    y = np.asarray(y[:])
-
+    x = np.asarray(x[:], dtype='float32')
+    y = np.asarray(y[:], dtype='float32')
     return x, y
 
 
@@ -48,21 +49,32 @@ x_test = x_test.reshape(x_test.shape[0], img_height, img_width, 1)
 
 
 # Initialize model
-model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3),
-                 activation='relu',
-                 input_shape=input_shape))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='softmax'))
+def init_model():
+    model = Sequential()
+    model.add(Conv2D(32, kernel_size=(3, 3),
+                     activation='relu',
+                     input_shape=input_shape))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(num_classes, activation='softmax'))
 
-model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer=keras.optimizers.Adam(),
-              metrics=['accuracy'])
+    return model
+
+
+model = batch_norm()
+print(model.summary())
+# model.compile(loss=keras.losses.categorical_crossentropy,
+#                   optimizer=keras.optimizers.Adam(),
+#                   metrics=['accuracy'])
+
+# checkpoint
+filepath="pure_conv.best.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+callbacks_list = [checkpoint]
 
 # Data augmentation
 gen = ImageDataGenerator(rotation_range=8,
@@ -77,12 +89,39 @@ test_generator = test_gen.flow(x_test, y_test, batch_size=batch_size)
 
 # Run model
 model.fit_generator(train_generator,
-                    steps_per_epoch=60000 // batch_size,
-                    epochs=5,
+                    steps_per_epoch=x_train.shape[0] // batch_size,
+                    epochs=num_epochs,
                     validation_data=test_generator,
-                    validation_steps=10000 // batch_size)
+                    validation_steps=x_test.shape[0] // batch_size,
+                    callbacks=callbacks_list,
+                    class_weight='auto')
 
 
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+
+# tmp = x_train[0].reshape(48, 32, 1, 1)
+# prediction = model.predict(np.asarray([x_train[0]]))
+# for i in range(len(prediction)):
+# 	print('Predicted: ', prediction[i])
+
+
+# # Plot training & validation accuracy values
+# plt.plot(history.history['acc'])
+# plt.plot(history.history['val_acc'])
+# plt.title('Model accuracy')
+# plt.ylabel('Accuracy')
+# plt.xlabel('Epoch')
+# plt.legend(['Train', 'Test'], loc='upper left')
+# plt.show()
+
+# # Plot training & validation loss values
+# plt.plot(history.history['loss'])
+# plt.plot(history.history['val_loss'])
+# plt.title('Model loss')
+# plt.ylabel('Loss')
+# plt.xlabel('Epoch')
+# plt.legend(['Train', 'Test'], loc='upper left')
+# plt.show()
