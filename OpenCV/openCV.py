@@ -13,7 +13,8 @@ def undesired_objects (image):
     nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity=8)
     sizes = stats[:, -1]
     #Show components of the image
-    imshow_components(output)
+#     imshow_components(output)
+
     max_label = 1
     max_size = sizes[1]
 
@@ -74,25 +75,24 @@ gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 #Perform OTSU binarization
 ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
-#Fooling around with sauvola binarization. Work in progress though.
-# window_size = 25
-# thresh_sauvola = threshold_sauvola(img, window_size=window_size)
-# binary_sauvola = img > thresh_sauvola
-# binary_sauvola  = binary_sauvola.astype('uint8')
-# binary_sauvola[binary_sauvola == 1 ] = 255
-# cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
+# #Fooling around with sauvola binarization. Work in progress though.
+# # window_size = 25
+# # thresh_sauvola = threshold_sauvola(img, window_size=window_size)
+# # binary_sauvola = img > thresh_sauvola
+# # binary_sauvola  = binary_sauvola.astype('uint8')
+# # binary_sauvola[binary_sauvola == 1 ] = 255
+# # cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
+# =======
 
-
-###################################################################
-#Fooling around with sauvola binarization. Work in progress though.
-#window_size = 25
-#thresh_sauvola = threshold_sauvola(img, window_size=window_size)
-#binary_sauvola = img > thresh_sauvola
-#binary_sauvola  = binary_sauvola.astype('uint8')
-#binary_sauvola[binary_sauvola == 1 ] = 255
-#cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
-###################################################################
-
+# ###################################################################
+# #Fooling around with sauvola binarization. Work in progress though. 
+# #window_size = 25
+# #thresh_sauvola = threshold_sauvola(img, window_size=window_size)
+# #binary_sauvola = img > thresh_sauvola
+# #binary_sauvola  = binary_sauvola.astype('uint8')
+# #binary_sauvola[binary_sauvola == 1 ] = 255
+# #cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
+# ###################################################################
 
 #Show  and save image
 cv2.imwrite('output_files/otsu.png',thresh)
@@ -137,9 +137,18 @@ height = bounding_boxes[0][3]
 #Crop from the originalimage to only get the scroll wihtou losing information at the edges
 crop_img = inverted[y:y+height, x:x+width]
 cv2.imwrite('output_files/crop.png', crop_img)
+<<<<<<< Updated upstream
 #Draw rectangle around the largest component to see what is being cropped.
 
 #Draw rectangle around the largest component to see what is being cropped.
+=======
+# <<<<<<< HEAD
+# #Draw rectangle around the largest component to see what is being cropped.
+# =======
+
+# #Draw rectangle around the largest component to see what is being cropped. 
+# >>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
+>>>>>>> Stashed changes
 cv2.rectangle(largest_component_copy,(x,y),(x+width,y+height),(255,0,0),2)
 cv2.imwrite('output_files/vierkant.png', largest_component_copy)
 crop_img2 = img[y:y+height, x:x+width]

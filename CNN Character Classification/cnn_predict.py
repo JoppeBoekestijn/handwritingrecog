@@ -34,6 +34,7 @@ def load_data(train=True):
 def main():
     x_test, y_test = load_data(train=False)
     x_test = x_test.reshape(x_test.shape[0], img_height, img_width, 1)
+    print(x_test.shape[0])
 
     model = load_model('temporary.best.hdf5')
 
@@ -48,7 +49,8 @@ def main():
     
     for i in range(len(prediction)):
         print('Predicted: ', prediction[i])
-    print(np.where(y_test[test_image_number] == 1))  
+    print(np.where(y_test[test_image_number] == 1)) 
+    print(sum(prediction))
 
 
 if __name__ == '__main__':
