@@ -12,12 +12,8 @@ def undesired_objects (image):
     image = image.astype('uint8')
     nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity=8)
     sizes = stats[:, -1]
-<<<<<<< HEAD
-=======
     #Show components of the image
     imshow_components(output)
-
->>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
     max_label = 1
     max_size = sizes[1]
 
@@ -68,7 +64,7 @@ def img_fill(im_th):  # n = binary image threshold
     # Combine the two images to get the foreground.
     fill_image = im_th | im_floodfill_inv
 
-    return fill_image 
+    return fill_image
 
 #Read image, and perform binarization using Otsu algorithm
 img = cv2.imread('input_files/test6.jpg')  #Afbeelding waar je alles op uitvoert
@@ -78,7 +74,6 @@ gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 #Perform OTSU binarization
 ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
-<<<<<<< HEAD
 #Fooling around with sauvola binarization. Work in progress though.
 # window_size = 25
 # thresh_sauvola = threshold_sauvola(img, window_size=window_size)
@@ -86,10 +81,10 @@ ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 # binary_sauvola  = binary_sauvola.astype('uint8')
 # binary_sauvola[binary_sauvola == 1 ] = 255
 # cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
-=======
+
 
 ###################################################################
-#Fooling around with sauvola binarization. Work in progress though. 
+#Fooling around with sauvola binarization. Work in progress though.
 #window_size = 25
 #thresh_sauvola = threshold_sauvola(img, window_size=window_size)
 #binary_sauvola = img > thresh_sauvola
@@ -97,7 +92,7 @@ ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 #binary_sauvola[binary_sauvola == 1 ] = 255
 #cv2.imwrite('output_files/binary_sauvola.png', binary_sauvola)
 ###################################################################
->>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
+
 
 #Show  and save image
 cv2.imwrite('output_files/otsu.png',thresh)
@@ -123,14 +118,12 @@ largest_component = largest_component.astype('uint8')
 #Save file for debugging purposes.
 cv2.imwrite('output_files/is_dit_het_nou.png', largest_component)
 
-<<<<<<< HEAD
+
 inv_largest = inverted(largest_component)
 no_holes = inverted(undesired_objects(inv_largest))
 cv2.imwrite('output_files/is_dit_omgekeerd.png', inv_largest)
 
-=======
 #Create bounding box around largest component with contours
->>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
 largest_component_copy = largest_component
 contours, hierarchy = cv2.findContours(largest_component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 bounding_boxes = [cv2.boundingRect(contour) for contour in contours]
@@ -144,12 +137,9 @@ height = bounding_boxes[0][3]
 #Crop from the originalimage to only get the scroll wihtou losing information at the edges
 crop_img = inverted[y:y+height, x:x+width]
 cv2.imwrite('output_files/crop.png', crop_img)
-<<<<<<< HEAD
 #Draw rectangle around the largest component to see what is being cropped.
-=======
 
-#Draw rectangle around the largest component to see what is being cropped. 
->>>>>>> f0802aa7398df5cccbbe613aba94c3f70b89fcb5
+#Draw rectangle around the largest component to see what is being cropped.
 cv2.rectangle(largest_component_copy,(x,y),(x+width,y+height),(255,0,0),2)
 cv2.imwrite('output_files/vierkant.png', largest_component_copy)
 crop_img2 = img[y:y+height, x:x+width]
