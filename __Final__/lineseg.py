@@ -251,20 +251,25 @@ def hole_removal (image, percentile):
     print(val)
     #We also create an absolute threshold to not accidentally remove small characters
     abs_threshold = 1500
+    
+    ####################PIXEL DENSITY##########################
     #Calculate the pixel density for each component
     pixel_density = np.zeros(nb_components+1)
-    for i in range(2, nb_components):
-        #convert connected component to an image and get white pixel density
-        img1 = np.zeros(output.shape)
-        img1[output == i] = 255
-        cv2.imwrite("output_files/biggest_componenttemp.png", img1)
-        pixel_density[i] = pixel_density_connected_component(img1, image)
-        #raw_input("Press Enter to continue...")
+    #for i in range(2, nb_components):
+    #    #convert connected component to an image and get white pixel density
+    #    img1 = np.zeros(output.shape)
+    #    img1[output == i] = 255
+    #    cv2.imwrite("output_files/biggest_componenttemp.png", img1)
+    #    pixel_density[i] = pixel_density_connected_component(img1, image)
+    #    #raw_input("Press Enter to continue...")
     
     #Calculate the desnity threshold with a percentile. 
-    density_threshold = np.percentile(pixel_density, 25)
+    #density_threshold = np.percentile(pixel_density, 25)
+    ##############################################
+    
     #Create empty image, only add components smaller than the threshold
     img2 = np.zeros(output.shape)
+    mask_holes = np.zeros(output.shape)
     for i in range(2, nb_components):
         if sizes[i] <= var_threshold:
             img2[output == i] = 255
@@ -273,6 +278,11 @@ def hole_removal (image, percentile):
         #elif sizes[i] > var_threshold:
          #   if pixel_density[i] <= density_threshold:
          #       img2[output == i] = 255
+        else:
+            mask_holes[output == i] = 255
+    mask_holes = mask_holes.astype('uint8')       
+    #cv2.imwrite("output_files/hole_mask.png", mask_holes)
+    cv2.imwrite(newfolder+'hole_mask.png',mask_holes)
     return img2
 
 def inverted(imagem):
