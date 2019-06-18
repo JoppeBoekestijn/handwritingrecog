@@ -1,5 +1,6 @@
 import sys
 import os
+import lineSegmentation as ls
 
 
 def main(argv):
@@ -28,24 +29,28 @@ def main(argv):
 		imageName = file.rsplit('.',1)[0]
 		imagePath = source_path+'/'+file
 		print('Processing file {}'.format(imageName))
-		lineList = []
+		
 		# Binarization
 		
 		# Line segmentation
+		histogram = ls.getHist(output_hole_removal, mask)
 		
-		# Hole removal
+		slices = ls.findSlices(histogram)
+		
+		slicesList = ls.sliceImg(inputimg, original, mask, slices)
+		# Hole removal, slices segmentation
 		
 		# Classification
-		
+		lineList = []
 		# Language model
 		
 		
 		
 		# Writing to .txt file
 		textf = source_path + '/' + imageName + '.txt'
-		textfile = open(textf, 'w')
-		textfile.writelines(lineList)
-		textfile.close()
+		#textfile = open(textf, 'w')
+		#textfile.writelines(lineList)
+		#textfile.close()
 		print('Converted image file {} to text, saved to {}'.format(imageName,textf))
 		
 
