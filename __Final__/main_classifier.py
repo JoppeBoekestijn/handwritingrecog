@@ -48,9 +48,9 @@ def main(argv):
 		
 		# Writing to .txt file
 		textf = source_path + '/' + imageName + '.txt'
-		#textfile = open(textf, 'w')
-		#textfile.writelines(lineList)
-		#textfile.close()
+		textfile = open(textf, 'w')
+		textfile.writelines(lineList)
+		textfile.close()
 		print('Converted image file {} to text, saved to {}'.format(imageName,textf))
 		
 

@@ -74,6 +74,7 @@ def findSlices(histogram):
 #def sliceImg(inputimg, slices, folder, original, mask):
 def sliceImg(inputimg, original, mask, slices):
 	slicesList = []
+	
 	if np.amax(inputimg) == 1:
 		paper = inputimg * 255
 	else:
