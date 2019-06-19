@@ -10,6 +10,7 @@ from tflearn.data_utils import image_preloader
 from keras.callbacks import ModelCheckpoint
 from PIL import Image
 from models import *
+from sklearn.utils import class_weight
 
 # Global parameters
 batch_size = 32
@@ -46,6 +47,13 @@ x_train, y_train = load_data()
 x_test, y_test = load_data(train=False)
 x_train = x_train.reshape(x_train.shape[0], img_height, img_width, 1)
 x_test = x_test.reshape(x_test.shape[0], img_height, img_width, 1)
+# print(type(y_train))
+# class_weights = class_weight.compute_class_weight('balanced',
+#                                                  np.unique(y_train),
+#                                                  y_train)
+class_weights = class_weight.compute_sample_weight(class_weight='balanced',
+                                                   y = y_train)
+print(len(class_weights))
 
 
 # Initialize model
@@ -72,7 +80,7 @@ print(model.summary())
 #                   metrics=['accuracy'])
 
 # checkpoint
-filepath="pure_conv.best.hdf5"
+filepath="batch_norm.best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
@@ -94,7 +102,7 @@ model.fit_generator(train_generator,
                     validation_data=test_generator,
                     validation_steps=x_test.shape[0] // batch_size,
                     callbacks=callbacks_list,
-                    class_weight='auto')
+                    class_weight=class_weights)
 
 
 score = model.evaluate(x_test, y_test, verbose=0)
