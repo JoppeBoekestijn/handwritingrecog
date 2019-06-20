@@ -5,36 +5,73 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.4'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.1.6
 #   kernel_info:
 #     name: python3
 #   kernelspec:
-#     display_name: Python [conda env:tensorflow]
+#     display_name: hwr
 #     language: python
-#     name: conda-env-tensorflow-py
+#     name: hwr
 # ---
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
 import numpy as np
 import cv2
-from matplotlib import pyplot as plt
-from skimage.data import page
-from skimage.filters import threshold_sauvola
-
 import io
-
-from IPython.display import clear_output, Image, display
 import PIL.Image
-from keras.models import load_model
 import math
+import glob
 import tensorflow as tf
-from skimage.color import rgb2gray
+
+from matplotlib import pyplot as plt
+from IPython.display import clear_output, Image, display
+from keras.models import load_model
+from util.WordSegmentation import wordSegmentation, prepareImg
+from sklearn.preprocessing import normalize
+from natsort import natsorted
+from keras.backend.tensorflow_backend import set_session
 # -
 
-print(cv2.__version__)
+config = tf.ConfigProto(
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.8)
+    # device_count = {'GPU': 1}
+)
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+set_session(session)
+
+class_names = [
+    "Alef",
+    "Ayin",
+    "Bet",
+    "Dalet",
+    "Gimel",
+    "He",
+    "Het",
+    "Kaf",
+    "Kaf-final",
+    "Lamed",
+    "Mem",
+    "Mem-medial",
+    "Nun-final",
+    "Nun-medial",
+    "Pe",
+    "Pe-final",
+    "Qof",
+    "Resh",
+    "Samekh",
+    "Shin",
+    "Taw",
+    "Tet",
+    "Tsadi-final",
+    "Tsadi-medial",
+    "Waw",
+    "Yod",
+    "Zayin"
+]
 
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
 def showarray(a, fmt='jpeg'):
     a = np.uint8(np.clip(a, 0, 255))
     f = io.BytesIO()
@@ -42,108 +79,136 @@ def showarray(a, fmt='jpeg'):
     display(Image(data=f.getvalue()))
 
 
-# + {"outputHidden": false, "inputHidden": false}
-model = load_model('../weights.best.hdf5')
+# + {"inputHidden": false, "outputHidden": false}
+model = load_model('temporary.best.hdf5')
 # new_model = tf.keras.experimental.load_from_saved_model(saved_model_path)
 model.summary()
 
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
+import_images = []
+import_images.append(prepareImg(cv2.imread('input_files_word_old/slice4.png'), 50))
+showarray(import_images[0])
+
+# +
+input_files = 'output_files/image-data/'
+
+def load_slices(filepath):
+    slices = []
+    slices_filepath = filepath + '/'
+    slices_path = natsorted(glob.glob(slices_filepath + 'slice*_binarize.png'))
+    for slice_path in slices_path:
+        slices.append(prepareImg(cv2.imread(slice_path), 50))  
+    #print(len(slices))
+    return slices
+
+image_filepaths = glob.glob(input_files + '*')
+print(image_filepaths[len(image_filepaths) - 5])
+images = []
+for image_filepath in image_filepaths:
+    images.append(load_slices(image_filepath))
+
+# -
+
+#Count the number of black pixels in an image and return a float with the density
+def pixel_density(image):
+    area = float(image.shape[0]*image.shape[1])
+    blackPixels = float(np.sum(image == 0))
+    density = blackPixels/area
+    return density
 
 
-# + {"outputHidden": false, "inputHidden": false}
-img = cv2.imread('input_files_word_segment/slice5.png')  #Afbeelding waar je alles op uitvoert
+"""
+res = []
+words = []
+for i, img in enumerate(import_images):
+    res = wordSegmentation(img, kernelSize=5, sigma=5, theta=7, minArea=30) # fix parameters
+"""
 
-# convert to grayscale
-gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-# smooth the image to avoid noises
-gray = cv2.medianBlur(gray,5)
-
-# Apply adaptive threshold
-thresh = cv2.adaptiveThreshold(gray,255,1,1,11,2)
-thresh_color = cv2.cvtColor(thresh,cv2.COLOR_GRAY2BGR)
-
-# apply some dilation and erosion to join the gaps
-thresh = cv2.dilate(thresh,None,iterations = 3)
-thresh = cv2.erode(thresh,None,iterations = 2)
-
-# Find the contours
-_, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-
-thresh = img.copy()
-
-gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-# For each contour, find the bounding rectangle and draw it
-
-# + {"outputHidden": false, "inputHidden": false}
-# ret,thresh1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
-# thresh1.shape
+#There still needs to come a loop through all the slices, here you can pick a slice to debug
+img = images[1][5]
 showarray(img)
+#Parameters are optimized. 
+res = wordSegmentation(img, kernelSize=5, sigma=5, theta=7, minArea=100) 
 
-# + {"outputHidden": false, "inputHidden": false}
-words = [];
-for cnt in contours:
-    x,y,w,h = cv2.boundingRect(cnt)
-    if w > 50:
-        words.append(img[y:y+h, x:x+w]);
-    cv2.rectangle(thresh,(x,y),(x+w,y+h),(0,255,0),2)
-    cv2.rectangle(thresh_color,(x,y),(x+w,y+h),(0,255,0),2)
+words = []
+for (j, w) in enumerate(res):
+    (wordBox, wordImg) = w
+    (x, y, w, h) = wordBox
+    if (w > 15):
+        if( h > 15):
+            words.append(wordImg)
 
 
-# + {"outputHidden": false, "inputHidden": false}
-word = words[2]
-showarray(word)
+# + {"inputHidden": false, "outputHidden": false}
+words.reverse()
+for word in words:
+    showarray(word)
 
-# + {"outputHidden": false, "inputHidden": false}
-# def get_resized_img(img, video_size):
-#     width, height = video_size  # these are the MAX dimensions
-#     video_ratio = width / height
-#     img_ratio = img.size[0] / img.size[1]
-#     if video_ratio >= 1:  # the video is wide
-#         if img_ratio <= video_ratio:  # image is not wide enough
-#             width_new = int(height * img_ratio)
-#             size_new = width_new, height
-#         else:  # image is wider than video
-#             height_new = int(width / img_ratio)
-#             size_new = width, height_new
-#     else:  # the video is tall
-#         if img_ratio >= video_ratio:  # image is not tall enough
-#             height_new = int(width / img_ratio)
-#             size_new = width, height_new
-#         else:  # image is taller than video
-#             width_new = int(height * img_ratio)
-#             size_new = width_new, height
-#     return np.asarray(img.resize(size_new, resample=Image.LANCZOS))
+# +
+#Look for the bounding boxes over the words again to possible find characters. It will return the box of the entire word
+#when it does not find seperate characters in the word. 
+#The character needs a minimum width of 15, height of 10 and maximum density of 55%
+characters = []
+temp = []
+for word in words:
+    res = wordSegmentation(word, kernelSize=3, sigma=1, theta=1, minArea=15) # fix parameters
 
-# + {"outputHidden": false, "inputHidden": false}
-h, w, _ = word.shape
-num = 2
-chars = []
-for i in range(num):
-    part = math.floor(w / num)
-    char = word[:,part * i:(part * i) + part]
-    shape = cv2.resize(char,(32,48))
-    ret,thresh1 = cv2.threshold(shape,127,255,cv2.THRESH_BINARY)
-    chars.append(thresh1)
+    for (j, w) in enumerate(res):
+        (charBox, charImg) = w
+        (x, y, w, h) = charBox
+        if (w > 15):
+            if( h > 15):
+                if( pixel_density(charImg) < 0.55):
+                    characters.append(charImg)
 
-# + {"outputHidden": false, "inputHidden": false}
-char = chars[1]
-showarray(char)
+for char in characters:
+    showarray(char)
+    #print(pixel_density(char))
 
-# + {"outputHidden": false, "inputHidden": false}
-char = cv2.cvtColor(char, cv2.COLOR_BGR2GRAY)
-char = np.asarray(char[:], dtype='float32')
-char = char.reshape((-1, 48, 32,1))
+# + {"inputHidden": false, "outputHidden": false, "cell_type": "markdown"}
+# ##### word = words[2]
+# h, w = word.shape
+# num = 4
+# chars = []
+# for i in range(num):
+#     part = math.floor(w / num)
+#     char = word[:,part * i:(part * i) + part]
+#     shape = cv2.resize(char,(32,48))
+#     ret,thresh1 = cv2.threshold(shape,127,255,cv2.THRESH_BINARY)
+#     chars.append(thresh1)
 
-# + {"outputHidden": false, "inputHidden": false}
-with tf.device('/cpu:0'):
-      model.predict(char)
-model.predict([char]).shape
-print(model.predict([char]))
+# + {"inputHidden": false, "outputHidden": false}
+chars = characters
+for char in chars:
+    showarray(char)
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
+fonts = []
+for item in class_names:
+    fonts.append(cv2.imread('habbakuk/' + item + '/standard.png'))
+
+# + {"inputHidden": false, "outputHidden": false}
+for char in chars:
+#     char_pred = cv2.cvtColor(char, cv2.COLOR_BGR2GRAY)
+    char_pred = np.asarray(char[:], dtype='float32')
+    print(char_pred.shape)
+    char_pred = normalize(char_pred)
+    char_pred = char_pred.reshape(-1, 48, 32,1)
+
+    prediction = model.predict([char_pred])
+    for i in range(len(prediction)):
+        print('Predicted: ', prediction[i] * 100)
+    highest_index = np.argmax(prediction)
+    print('Index of class with highest probability: ',highest_index)
+    print('Value of highest probability: ', prediction[0][highest_index])
+    print('Name of predicted class: ', class_names[highest_index])
+    print('habbabuk/' + class_names[highest_index] + '/standard.png')
+    character_example = cv2.imread('habbakuk/' + str(class_names[highest_index]) + '/standard.png')
+    showarray(character_example)
+    showarray(char)
+
+# + {"inputHidden": false, "outputHidden": false}
 # for box in bounding_boxes:
 #     xStart = box[2]
 #     xEnd = box[0]
@@ -176,14 +241,38 @@ print(model.predict([char]))
 #             hit = True
 #             xStart = newX
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
+# def get_resized_img(img, video_size):
+#     width, height = video_size  # these are the MAX dimensions
+#     video_ratio = width / height
+#     img_ratio = img.size[0] / img.size[1]
+#     if video_ratio >= 1:  # the video is wide
+#         if img_ratio <= video_ratio:  # image is not wide enough
+#             width_new = int(height * img_ratio)
+#             size_new = width_new, height
+#         else:  # image is wider than video
+#             height_new = int(width / img_ratio)
+#             size_new = width, height_new
+#     else:  # the video is tall
+#         if img_ratio >= video_ratio:  # image is not tall enough
+#             height_new = int(width / img_ratio)
+#             size_new = width, height_new
+#         else:  # image is taller than video
+#             width_new = int(height * img_ratio)
+#             size_new = width_new, height
+#     return np.asarray(img.resize(size_new, resample=Image.LANCZOS))
+
+# + {"inputHidden": false, "outputHidden": false}
+# char = cv2.cvtColor(char, char, cv2.COLOR_BGR2GRAY)
 
 
-# + {"outputHidden": false, "inputHidden": false}
+# + {"inputHidden": false, "outputHidden": false}
 
 
-# + {"outputHidden": false, "inputHidden": false}
+
+# + {"inputHidden": false, "outputHidden": false}
 
 
-# + {"outputHidden": false, "inputHidden": false}
+
+# + {"inputHidden": false, "outputHidden": false}
 
