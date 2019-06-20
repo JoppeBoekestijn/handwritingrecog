@@ -261,19 +261,19 @@ def batch_norm():
 def pure_conv():
     model = Sequential()
 
-    model.add(Conv2D(96, 5, 5, border_mode='valid', input_shape = input_shape))
+    model.add(Conv2D(96, (5, 5), border_mode='valid', input_shape = input_shape))
     model.add(MaxPooling2D(pool_size=(3, 3), strides=(2,2)))
     model.add(Activation("relu"))
 
-    model.add(Conv2D(192, 5, 5, border_mode='valid'))
+    model.add(Conv2D(192, (5, 5), border_mode='valid'))
     model.add(MaxPooling2D(pool_size=(3, 3), strides=(2,2)))
     model.add(Activation("relu"))
 
-    model.add(Conv2D(192, 3, 3, border_mode='valid'))
+    model.add(Conv2D(192, (3, 3), border_mode='valid'))
     model.add(Activation("relu"))
-    model.add(Conv2D(192, 1, 1, border_mode='valid'))
+    model.add(Conv2D(192, (1, 1), border_mode='valid'))
     model.add(Activation("relu"))
-    model.add(Conv2D(num_classes, 1, 1, border_mode='valid'))
+    model.add(Conv2D(num_classes, (1, 1), border_mode='valid'))
     model.add(Activation("relu"))
 
     model.add(Flatten())

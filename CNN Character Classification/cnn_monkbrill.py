@@ -37,9 +37,11 @@ def load_data(train=True):
                            categorical_labels=True,
                            normalize=True,
                            grayscale=True)
-
+    
     x = np.asarray(x[:], dtype='float32')
     y = np.asarray(y[:], dtype='float32')
+
+
     return x, y
 
 
@@ -51,9 +53,10 @@ x_test = x_test.reshape(x_test.shape[0], img_height, img_width, 1)
 # class_weights = class_weight.compute_class_weight('balanced',
 #                                                  np.unique(y_train),
 #                                                  y_train)
-class_weights = class_weight.compute_sample_weight(class_weight='balanced',
-                                                   y = y_train)
-print(len(class_weights))
+# class_weights = class_weight.compute_sample_weight(class_weight='balanced',
+#                                                    y = y_train)
+# print(len(class_weights))
+# print(class_weights[:30])
 
 
 # Initialize model
@@ -73,14 +76,14 @@ def init_model():
     return model
 
 
-model = batch_norm()
+model = lenet5()
 print(model.summary())
 # model.compile(loss=keras.losses.categorical_crossentropy,
 #                   optimizer=keras.optimizers.Adam(),
 #                   metrics=['accuracy'])
 
 # checkpoint
-filepath="batch_norm.best.hdf5"
+filepath="lenet5.best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
@@ -95,14 +98,17 @@ test_gen = ImageDataGenerator()
 train_generator = gen.flow(x_train, y_train, batch_size=batch_size)
 test_generator = test_gen.flow(x_test, y_test, batch_size=batch_size)
 
+class_weights = max(np.sum(y_train, axis=0)) / np.sum(y_train, axis=0) 
+print(class_weights)
+
 # Run model
-model.fit_generator(train_generator,
-                    steps_per_epoch=x_train.shape[0] // batch_size,
-                    epochs=num_epochs,
-                    validation_data=test_generator,
-                    validation_steps=x_test.shape[0] // batch_size,
-                    callbacks=callbacks_list,
-                    class_weight=class_weights)
+history = model.fit_generator(train_generator,
+                              steps_per_epoch=x_train.shape[0] // batch_size,
+                              epochs=num_epochs,
+                              validation_data=test_generator,
+                              validation_steps=x_test.shape[0] // batch_size,
+                              callbacks=callbacks_list,
+                              class_weight=class_weights)
 
 
 score = model.evaluate(x_test, y_test, verbose=0)
@@ -116,20 +122,20 @@ print('Test accuracy:', score[1])
 # 	print('Predicted: ', prediction[i])
 
 
-# # Plot training & validation accuracy values
-# plt.plot(history.history['acc'])
-# plt.plot(history.history['val_acc'])
-# plt.title('Model accuracy')
-# plt.ylabel('Accuracy')
-# plt.xlabel('Epoch')
-# plt.legend(['Train', 'Test'], loc='upper left')
-# plt.show()
+# Plot training & validation accuracy values
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
 
-# # Plot training & validation loss values
-# plt.plot(history.history['loss'])
-# plt.plot(history.history['val_loss'])
-# plt.title('Model loss')
-# plt.ylabel('Loss')
-# plt.xlabel('Epoch')
-# plt.legend(['Train', 'Test'], loc='upper left')
-# plt.show()
+# Plot training & validation loss values
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
