@@ -9,9 +9,9 @@
 #   kernel_info:
 #     name: python3
 #   kernelspec:
-#     display_name: hwr
+#     display_name: Python 3
 #     language: python
-#     name: hwr
+#     name: python3
 # ---
 
 # + {"inputHidden": false, "outputHidden": false}
@@ -78,11 +78,10 @@ def showarray(a, fmt='jpeg'):
     PIL.Image.fromarray(a).save(f, fmt)
     display(Image(data=f.getvalue()))
 
-
 # + {"inputHidden": false, "outputHidden": false}
-model = load_model('temporary.best.hdf5')
-# new_model = tf.keras.experimental.load_from_saved_model(saved_model_path)
-model.summary()
+# model = load_model('temporary.best.hdf5')
+# # new_model = tf.keras.experimental.load_from_saved_model(saved_model_path)
+# model.summary()
 
 
 # + {"inputHidden": false, "outputHidden": false}
@@ -126,7 +125,7 @@ for i, img in enumerate(import_images):
 """
 
 #There still needs to come a loop through all the slices, here you can pick a slice to debug
-img = images[1][5]
+img = images[1][6]
 showarray(img)
 #Parameters are optimized. 
 res = wordSegmentation(img, kernelSize=5, sigma=5, theta=7, minArea=100) 
